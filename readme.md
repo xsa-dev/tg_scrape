@@ -2,6 +2,10 @@
 ## Use
 - Get api keys at [my.telegram.org](my.telegram.org)
 - Update config.yaml
+- Install telethon
+```
+pip install telethon
+```
 - Run
 ```python
 python main.py
