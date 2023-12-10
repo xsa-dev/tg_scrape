@@ -8,8 +8,7 @@ import csv
 def read_config():
     with open('config.yml') as f:
         try:
-            config = yaml.load(f, Loader=yaml.FullLoader)
-            return config
+            return yaml.load(f, Loader=yaml.FullLoader)
         except yaml.YAMLError as exc:
             print(exc)
             return {}
@@ -50,11 +49,8 @@ for chat in chats:
         continue
 
 print('Choose a group to scrape members from:')
-i = 0
-for g in groups:
-    print(str(i) + '- ' + g.title)
-    i += 1
-
+for i, g in enumerate(groups):
+    print(f'{str(i)}- {g.title}')
 g_index = input("Enter a Number: ")
 target_group = groups[int(g_index)]
 
@@ -68,19 +64,10 @@ with open("members.csv", "w", encoding='UTF-8') as f:
     writer.writerow(['username', 'user id', 'access hash',
                     'name', 'group', 'group id'])
     for user in all_participants:
-        if user.username:
-            username = user.username
-        else:
-            username = ""
-        if user.first_name:
-            first_name = user.first_name
-        else:
-            first_name = ""
-        if user.last_name:
-            last_name = user.last_name
-        else:
-            last_name = ""
-        name = (first_name + ' ' + last_name).strip()
+        username = user.username if user.username else ""
+        first_name = user.first_name if user.first_name else ""
+        last_name = user.last_name if user.last_name else ""
+        name = f'{first_name} {last_name}'.strip()
         writer.writerow([username, user.id, user.access_hash,
                         name, target_group.title, target_group.id])
 print('Members scraped successfully.')
